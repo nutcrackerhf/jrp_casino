@@ -158,7 +158,7 @@ st.write(f"- **Std Dev (All-In on One Table)**: ${std_strat1:,.2f}")
 st.write(f"- **Std Dev (1 dollar on each of 1000 Tables)**: ${std_strat2:,.2f}")
 
 with st.expander("Detailed Explainer of Standard Deviation Calculations"):
-    st.markdown(rf"""## Why So Much Lower Variance When You Spread Bets?
+    st.markdown(rf"""## Why Do You Get Much Lower Variance When You Spread Your Bets Around?
 
 ### A Single “All-In” Bet Has Extreme Swings
 
@@ -190,10 +190,10 @@ remains significantly lower.
 
 The single big bet has variance $\sim 1000^2$.
 
-A A thousand $1 bets have a total variance of 
+A thousand 1 dollar bets have a total variance of 
 1000 × (small variance per $1 bet). Even multiplying by 1000, it’s an order 
-of magnitude smaller than a single $1000 bet’s variance 
-because each $1 bet’s variance is only on the scale of 1 (not 1000²).
+of magnitude smaller than a single 1000 dollar bet’s variance 
+because each 1 dollar bet’s variance is only on the scale of 1 (not 1000²).
 
 """)
 
