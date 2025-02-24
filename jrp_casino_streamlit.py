@@ -75,8 +75,7 @@ st.title("Biased Coin Casinos & the Fundamental Law of Active Management")
 
 # Add an image to break up text (coin flipping)
 st.image("https://media.istockphoto.com/vectors/coin-flip-vector-id1163915620?k=20&m=1163915620&s=612x612&w=0&h=txJTMl9C40qJ9nnPxSj35kWKIXxPRiFANrWlLVL3FmY=", 
-         caption="May the odds be forever in your favor",
-         use_column_width=False)
+         caption="May the odds be forever in your favor")
 
 st.markdown("""
 **Scenario**:  
