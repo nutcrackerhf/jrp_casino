@@ -1,5 +1,7 @@
 # Import python packages
 import streamlit as st
+from snowflake.snowpark.context import get_active_session
+import streamlit as st
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -71,30 +73,27 @@ st.sidebar.write("---")
 # =============================================================================
 # Title and Introduction
 # =============================================================================
-st.title("Biased Coin Casinos & the Fundamental Law of Active Management")
+st.title(":blue[Biased Coin Casinos & the Fundamental Law of Active Management]")
 
 # Add an image to break up text (coin flipping)
 st.image("https://media.istockphoto.com/vectors/coin-flip-vector-id1163915620?k=20&m=1163915620&s=612x612&w=0&h=txJTMl9C40qJ9nnPxSj35kWKIXxPRiFANrWlLVL3FmY=", 
          caption="May the odds be forever in your favor")
 
-st.markdown("""
-**Scenario**:  
-Imagine you walk into a *special* casino with **1000 tables**, each offering a **biased coin**.  
-You have **$1000** as a bankroll and can bet any amount on any subset of these tables, with even-money payouts.
+st.markdown("""In this app we will explore the **expected returns** and **risk** of different betting strategies (all-in vs. distributed), 
+show how **risk-adjusted returns (Sharpe ratios)** grow with more independent bets, and run a stylized **portfolio simulation** 
+where we can begin to apply some of the learnings to sizing independent alpha bets.""")
 
-In this app we will explore the **Expected returns** and **risk** of different betting strategies (all-in vs. distributed), 
-show how **risk-adjusted returns (Sharpe Ratios)** grow with more independent bets, and run a stylized **portfolio simulation** 
-where we can begin to apply some of the learnings to sizing independent alpha bets.
+st.header(":blue[SCENARIO]",divider=True)
 
----
-""")
+st.markdown("""**Imagine you walk into a *special* casino with **1000 tables**, each offering a **biased coin** which lands on heads nore often than tails**.
 
-
+You have **$1000** as a bankroll. You can bet on heads at as many or as few tables as you'd like, and you can bet any amount. The bets are all "even-money" bets, meaning if you bet and win, 
+you make the amount that you bet. If you bet and lose, you lose the same amount.""")
 
 # =============================================================================
 # Section 1: Betting Strategies (All-In vs. Spreading Bets)
 # =============================================================================
-st.header("1) Comparing Two Strategies: All-In vs. $1 on Each Table")
+st.header(":blue[1) Return of Two Strategies: All-In vs. $1 on Each Table]",divider=True)
 
 st.write(f"**Current Probability of Heads** (choose this in the sidebar) = {prob_heads:.3f}")
 
@@ -125,14 +124,14 @@ st.write(f"- **Bet**: ${bet_per_table_2:.2f} on {strat_2_num_tables} table(s)")
 st.write(f"- **Expected Return**: ${expected_return_strat2:.2f}")
 
 st.markdown("""  
-Both strategies have about the **same** expected return (~\$20). However, as we will see, **risk** differs.
+Both strategies have about the **same** expected return. However, as we will see, **risk** differs.
 """)
 
 
 # =============================================================================
 # Section 2: Risk (Standard Deviation) of the Two Strategies
 # =============================================================================
-st.header("2) Risk (Standard Deviation) of the Two Strategies")
+st.header(":blue[2) Risk (Standard Deviation) of the Two Strategies]",divider=True)
 
 # We'll assume the following are defined earlier in your code (e.g., in the sidebar or top-level):
 #   bankroll = 1000.0
@@ -278,6 +277,8 @@ because each $1 bet’s variance is only on the scale of 1 (not 1000²).
 # """)
 
 st.markdown("""
+The above shows that while the expected return of strategies above is the 
+same ($20), the different volatilities mean that their sharpe ratios are different. 
 This difference in **volatility** directly translates into a higher 
 **risk-adjusted** return (Sharpe ratio) for the more diversified strategy.
 """)
@@ -330,7 +331,7 @@ st.plotly_chart(fig, use_container_width=True)
 # =============================================================================
 # Section 3: Sharpe Ratio and the Fundamental Law
 # =============================================================================
-st.header("3) Sharpe Ratio and the Fundamental Law of Active Management")
+st.header(":blue[3) Sharpe Ratio and the Fundamental Law of Active Management]",divider=True)
 
 # Sharpe ratio for strategy 1
 sharpe_strat1 = ex_all_in / std_strat1 if std_strat1 > 0 else 0
@@ -343,10 +344,10 @@ st.write(f"- **Sharpe Ratio (Strategy 1)**: {sharpe_strat1:.4f}")
 st.write(f"- **Sharpe Ratio (Strategy 2)**: {sharpe_strat2:.4f}")
 
 product_sqrt_breadth = sharpe_strat1 * np.sqrt(strat_2_num_tables)
-st.write(f"If we multiply Strategy 1’s Sharpe by √1000, we get: {product_sqrt_breadth:.4f}")
-
+st.write(f"Now, there's a relatinonship between these two numbers. Strategy 2's Sharpe ratio can be arrived at by taking the Strategy 1 Sharpe ratio and multiplying it by the square root of breadth - in other words by the square root of 1000.")
+st.write(f"**If we multiply Strategy 1’s Sharpe by √1000, we get: {product_sqrt_breadth:.4f}**")
 st.markdown(r"""
-**Fundamental Law of Active Management**:  
+:green[**Fundamental Law of Active Management**]:  
 More independent bets (Breadth) → Higher risk-adjusted performance (IR).
 """)
 
@@ -354,17 +355,19 @@ st.latex(r"""
 {IR} = \text{IC} \times \sqrt{\text{Breadth}}""")
 
 st.markdown(r"""  
-Where IR = Information Ratio (a measure of risk-adjsuted alpha) and IC = Information Coefficient 
+Where IR = Information Ratio (a measure of risk-adjusted alpha) and IC = Information Coefficient 
 (a measure of predictive ability (skill/edge)""")
+
+st.markdown("*Generalizing, it turns out that the sharpe of a multi-table strategy is equivalent to the sharpe of a single-table strategy multiplied by the square root of the number of times we play that bet. SO there are two sure ways of increasing your risk adjusted return: either raise the edge or raise the number of bets you place.*")
 
 # =============================================================================
 # Section 4: Sharpe Ratio vs. Number of Tables (2D)
 # =============================================================================
-st.header("4) Sharpe Ratio vs. Number of Tables (2D)")
+st.header(":blue[4) Sharpe Ratio vs. Number of Tables (2D)]",divider=True)
 
 st.markdown("""
 We now calculate how the Sharpe ratio evolves as we increase the number
-of independent coin-flip bets—each with the same small edge defined by your chosen probability of winning.
+of independent coin-flip bets—each with the same edge defined by our chosen probability of winning.
 """)
 
 def calculate_sharpe(num_tables, p=0.51):
@@ -394,10 +397,10 @@ st.pyplot(fig1)
 # =============================================================================
 # Section 5: 3D Visualization (Sharpe vs. #Tables vs. Edge)
 # =============================================================================
-st.header("5) 3D Visualization: Sharpe vs. Number of Tables vs. Probability of Winning")
+st.header(":blue[5) 3D Visualization: Sharpe vs. Number of Tables vs. Probability of Winning]",divider=True)
 
 st.markdown("""
-Use this surface plot to see how Sharpe changes with both the **# of bets** and
+Use this surface plot to see how Sharpe changes with both the **# of bets** AND
 the **probability of winning** (i.e. your edge).
 """)
 
@@ -411,7 +414,7 @@ def calculate_sharpe_3d(num_tables, p):
     return ex_total/sd_total if sd_total>0 else 0
 
 num_tables_axis = np.linspace(1, 1000, 100, dtype=int)
-edge_axis = np.linspace(0.50, 0.60, 50)  # from 50% to 60%
+edge_axis = np.linspace(0.51, 0.60, 50)  # from 51% to 60%
 X, Y = np.meshgrid(num_tables_axis, edge_axis)
 Z = np.zeros_like(X, dtype=float)
 
@@ -435,14 +438,14 @@ st.plotly_chart(fig2, use_container_width=True)
 # =============================================================================
 # Section 6: Portfolio Simulation (Mean, Median, etc.)
 # =============================================================================
-st.header("6) Portfolio Simulation: Multiple Stocks & Idiosyncratic Alpha")
+st.header(":blue[6) Portfolio Simulation: Multiple Stocks & Idiosyncratic Alpha]",divider=True)
 
 st.markdown(f"""
 Finally, let's do a multi-stock simulation with user-chosen alpha parameters:
-- Probability of +Alpha (P_ALPHA_POS): **{p_alpha_pos:.2f}**  
+- Edge/Probability of +Alpha (P_ALPHA_POS): **{p_alpha_pos:.2f}**  
 - Positive Alpha (ALPHA_POS): **{alpha_pos:.2%}**  
 - Negative Alpha (ALPHA_NEG): **{alpha_neg:.2%}**  
-- # Simulations: **{n_simulations_user}**  
+- Simulations: **{n_simulations_user}**  
 
 We'll keep the market drift at 5% and volatility at 15% for a single period.
 """)
@@ -544,4 +547,18 @@ st.markdown("""
 ---
 """)
 
-st.success("End of Demo! Adjust the sliders or text inputs in the sidebar to explore different scenarios.")
+# =============================================================================
+# Section 6: Concluding Thoughts
+# =============================================================================
+st.header(":blue[6) Open Questions]",divider=True)
+
+st.markdown("""
+There are a couple of reasons why we may not want to indefinitely increase the breadth, the number of tables that we play at: 
+1) Does my IC drop as breadth increases? 
+2) Are the bets independent or correlated? (Menchero's "Diversification Coefficient") 
+3) Another complication: does my skill vary depending on the bet? 
+i.e. do the odds change depending on the coin's country of origin? (Menchero's "Signal Quality").
+""")
+
+
+st.success("The End. Adjust the sliders or text inputs in the sidebar to explore different scenarios.")
