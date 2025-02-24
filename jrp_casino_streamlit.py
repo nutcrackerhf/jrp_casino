@@ -439,8 +439,12 @@ st.plotly_chart(fig2, use_container_width=True)
 # =============================================================================
 st.header(":blue[6) Portfolio Simulation: Multiple Stocks & Idiosyncratic Alpha]",divider=True)
 
-st.markdown(f"""
-Finally, let's do a multi-stock simulation with user-chosen alpha parameters:
+st.write("We've been using coin tosses to drive intuition.") 
+st.write("In this section, let's move a bit closer to reality (although still in a very stylized way).")
+st.write("Let's assume that we have a constant edge in stock-picking; in other words, we are able to pick winners more often than losers.")
+st.write("Let's examine our portfolio outcomes across lots and lots of simulations, assuming the same edge and payoffs, but building our portfolios using more or fewer stock bets each time.")
+
+st.markdown(f"""**Parameters (adjust these in the Sidebar on the left):**
 - Edge/Probability of +Alpha (P_ALPHA_POS): **{p_alpha_pos:.2f}**  
 - Positive Alpha (ALPHA_POS): **{alpha_pos:.2%}**  
 - Negative Alpha (ALPHA_NEG): **{alpha_neg:.2%}**  
@@ -448,6 +452,8 @@ Finally, let's do a multi-stock simulation with user-chosen alpha parameters:
 
 We'll keep the market drift at 5% and volatility at 15% for a single period.
 """)
+
+
 
 # Let the user pick some portfolio sizes to test (small input example)
 portfolio_sizes_str = st.text_input(
@@ -504,15 +510,20 @@ for n_stocks in portfolio_sizes:
         'sharpe_like': sharpe_like
     })
 
+st.write(f"**What the table below shows is the single-period, median return of all {n_simulations_user:,.2f} portfolios with a given n number of stocks. It then shows us the standard deviation of the cross-section of all {n_simulations_user:,.2f} portfolios with that number of stocks.**")
+
 df_results = pd.DataFrame(results).sort_values('n_stocks')
 st.write("**Simulation Results** (sorted by # of stocks):")
 st.dataframe(df_results)
+
+
+
 
 # --- Plot 1: Median Wealth vs. # of Stocks ---
 fig3, ax3 = plt.subplots(figsize=(8,5))
 ax3.plot(df_results['n_stocks'], df_results['median_wealth'], marker='o', label='Median Wealth')
 ax3.set_title("Median Ending Wealth vs. Number of Stocks")
-ax3.set_xlabel("Number of Stocks")
+ax3.set_xlabel("Number of Stocks in Port")
 ax3.set_ylabel("Median Ending Wealth")
 ax3.grid(True)
 ax3.legend()
@@ -522,7 +533,7 @@ st.pyplot(fig3)
 fig4, ax4 = plt.subplots(figsize=(8,5))
 ax4.plot(df_results['n_stocks'], df_results['std_return'], marker='s', color='red', label='Std Dev of Returns')
 ax4.set_title("Portfolio Return Volatility vs. Number of Stocks")
-ax4.set_xlabel("Number of Stocks")
+ax4.set_xlabel("Number of Stocks in Port")
 ax4.set_ylabel("Std Dev of Single-Period Return")
 ax4.grid(True)
 ax4.legend()
@@ -532,11 +543,14 @@ st.pyplot(fig4)
 fig5, ax5 = plt.subplots(figsize=(8,5))
 ax5.plot(df_results['n_stocks'], df_results['sharpe_like'], marker='^', color='green', label='Sharpe-like Ratio')
 ax5.set_title("Risk-Adjusted Return vs. Number of Stocks")
-ax5.set_xlabel("Number of Stocks")
+ax5.set_xlabel("Number of Stocks in Port")
 ax5.set_ylabel("Mean Return / Std Dev of Returns")
 ax5.grid(True)
 ax5.legend()
 st.pyplot(fig5)
+
+
+
 
 st.markdown("""
 **Observation**:  
@@ -547,7 +561,7 @@ st.markdown("""
 """)
 
 # =============================================================================
-# Section 6: Concluding Thoughts
+# Section 7: Concluding Thoughts
 # =============================================================================
 st.header(":blue[6) Open Questions]",divider=True)
 
@@ -560,4 +574,4 @@ i.e. do the odds change depending on the coin's country of origin? (Menchero's "
 """)
 
 
-st.success("The End. Adjust the sliders or text inputs in the sidebar to explore different scenarios.")
+st.success("The end. Adjust the sliders or text inputs in the sidebar to explore different scenarios.")
