@@ -573,5 +573,18 @@ There are a couple of reasons why we may not want to indefinitely increase the b
 i.e. do the odds change depending on the coin's country of origin? (Menchero's "Signal Quality").
 """)
 
+st.markdown("""
+In a future discussion, we will breakdown the IC component of the Fundamental Law of Active Management into a more detailed set of measures:
+Per Grinold & Kahn again, 
+
+**Expected Alpha = IC * Z-score * Volatility**
+
+1) IC = Skill 
+2) Z-Score = Confidence
+3)Volatility = Return Potential
+""")
+
+
+
 
 st.success("The end. Adjust the sliders or text inputs in the sidebar to explore different scenarios.")
