@@ -40,7 +40,7 @@ p_alpha_pos = st.sidebar.slider(
 
 # 3) PORTFOLIO SIMULATION: Positive/Negative Alpha Values
 alpha_pos = st.sidebar.slider(
-    "Alpha When you're right",
+    "Alpha when you're right",
     min_value=0.0,
     max_value=0.20,
     value=0.05,
@@ -58,7 +58,7 @@ alpha_neg = st.sidebar.slider(
 # 4) PORTFOLIO SIMULATION: Additional slider for demonstration: 
 # How many simulations for the portfolio experiment?
 n_simulations_user = st.sidebar.slider(
-    "Number of Monte Carlo simulations",
+    "Number of simulations",
     min_value=1000,
     max_value=30000,
     value=10000,
