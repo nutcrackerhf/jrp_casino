@@ -31,7 +31,7 @@ st.sidebar.markdown("**ACTIVE PORTFOLIOS SIMULATION**")
 
 # 2) PORTFOLIO SIMULATION: Probability of + Alpha in Stock Simulation
 p_alpha_pos = st.sidebar.slider(
-    "Probability of +5% Alpha (P_ALPHA_POS)",
+    "Edge/Probability of +ve Alpha (P_ALPHA_POS)",
     min_value=0.0,
     max_value=1.0,
     value=0.60,
@@ -40,7 +40,7 @@ p_alpha_pos = st.sidebar.slider(
 
 # 3) PORTFOLIO SIMULATION: Positive/Negative Alpha Values
 alpha_pos = st.sidebar.slider(
-    "Positive Alpha (ALPHA_POS)",
+    "Alpha When you're right",
     min_value=0.0,
     max_value=0.20,
     value=0.05,
@@ -48,7 +48,7 @@ alpha_pos = st.sidebar.slider(
 )
 
 alpha_neg = st.sidebar.slider(
-    "Negative Alpha (ALPHA_NEG)",
+    "Alpha when you're wrong",
     min_value=-0.20,
     max_value=0.0,
     value=-0.05,
