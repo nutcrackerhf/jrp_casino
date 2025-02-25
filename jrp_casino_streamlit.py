@@ -84,7 +84,7 @@ where we can begin to apply some of the learnings to sizing independent alpha be
 
 st.header(":blue[SCENARIO]",divider=True)
 
-st.markdown("""**Imagine you walk into a *special* casino with **1000 tables**, each offering a **biased coin** which lands on heads nore often than tails**.
+st.markdown("""**Imagine you walk into a *special* casino with **1000 tables**, each offering a **biased coin** which lands on heads more often than tails**.
 
 You have **$1000** as a bankroll. You can bet on heads at as many or as few tables as you'd like, and you can bet any amount. The bets are all "even-money" bets, meaning if you bet and win, 
 you make the amount that you bet. If you bet and lose, you lose the same amount.""")
