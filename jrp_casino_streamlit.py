@@ -581,7 +581,7 @@ Per Grinold & Kahn again,
 
 1) IC = Skill 
 2) Z-Score = Confidence
-3)Volatility = Return Potential
+3) Volatility = Return Potential
 """)
 
 
